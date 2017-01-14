@@ -15,9 +15,9 @@ private:
 public:
 	Perceptron();
 	Perceptron(double);
-	void setInput(double);
 
 	virtual double activate();
+	void setInput(double);
 };
 
 #endif

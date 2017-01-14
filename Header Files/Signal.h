@@ -18,9 +18,9 @@ private:
 	INeuron* sender;
 
 public:
-	Signal(INeuron &obj, double weight) {
+	Signal(INeuron * obj, double weight) {
 		updateWeight(weight);
-		sender = &obj;
+		sender = obj;
 	}
 
 	double getWeightedSignal();

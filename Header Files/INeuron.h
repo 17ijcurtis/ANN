@@ -12,13 +12,17 @@ Date: 1/10/2017
 #define INEURON_H
 
 #include <cmath>
+#include <vector>
+
+using namespace std;
 
 class INeuron {
 private:
 	const double eulerConstant = exp(1.0);
+protected:
+	double sigmoid(double z) { return 1.0 / (1.0 + pow(eulerConstant, -z)); }
 public:
 	virtual double activate() = 0;
-	double sigmoid(double z) { return 1.0 / (1 + pow(eulerConstant, -z)); }
 };
 
 #endif

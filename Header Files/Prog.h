@@ -10,10 +10,17 @@ Date: 1/10/2017
 
 #include <iostream>
 
+#include "InputLayer.h"
+#include "OutputLayer.h"
+
 #include "INeuron.h"
 #include "Neuron.h"
 #include "Perceptron.h"
+#include "Receptron.h"
+
 #include "Signal.h"
+
+#include "NeuralNet.h"
 
 using namespace std;
 

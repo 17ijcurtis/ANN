@@ -7,18 +7,13 @@ Date: 1/10/2017
 
 /*
 	TODO:
-	create deconstructors for various classes
+	create deconstructors for all classes to avoid memory leaks
+	change all pointer arrays to vector arrays
 */
 
 int main() {
-	Perceptron perceptron1(1.0);
-	Perceptron perceptron2(1.0);
-
-	Signal signalArray[] = { Signal(perceptron1, 1.0), Signal(perceptron2, 1.0) };
-
-	Neuron Neuron1(signalArray, sizeof(signalArray) / sizeof(*signalArray));
-
-	cout << Neuron1.activate();
+	NeuralNet ann({ 2, 1 });
+	cout << ann.getOutput({ 1.0, 2.0 })[0];
 
 	cin.get();
 
