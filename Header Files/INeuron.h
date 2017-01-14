@@ -12,6 +12,7 @@ Date: 1/10/2017
 #define INEURON_H
 
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 using namespace std;

@@ -14,12 +14,13 @@ class Neuron : public INeuron {
 private:
 	// Signal array
 	vector<Signal*> signals;
+	double * biasPointer;
 
 	double contents();
 	void updateSignalStrengths();
 
 public:
-	Neuron(vector<Signal*>s);
+	Neuron(vector<Signal*>, double*);
 	virtual double activate();
 };
 

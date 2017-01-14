@@ -22,14 +22,7 @@ void Receptron::updateSignalStrengths() {
 	}
 }
 
-// PUBLIC FUNCTIONS
-// The activate function of the the Receptron simply returns 
-// the equivalent of contents for other types of neurons
-double Receptron::activate() {
-	// We must first update the signal strengths so that we
-	// have an up to date network.
-	updateSignalStrengths();
-
+double Receptron::contents() {
 	double sum = 0;
 
 	for (int i = 0; i < signals.size(); i++) {
@@ -37,4 +30,14 @@ double Receptron::activate() {
 	}
 
 	return sum;
+}
+
+// PUBLIC FUNCTIONS
+// The activate function of the the Receptron simply returns 
+// the equivalent of contents for other types of neurons
+double Receptron::activate() {
+	// We must first update the signal strengths so that we
+	// have an up to date network.
+	updateSignalStrengths();
+	return sigmoid(contents());
 }

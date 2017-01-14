@@ -16,6 +16,7 @@ private:
 	vector<Signal*> signals;
 
 	virtual void updateSignalStrengths();
+	double contents();
 
 public:
 	Receptron(vector<Signal*>);

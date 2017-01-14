@@ -17,8 +17,12 @@ OutputLayer::OutputLayer(unsigned short numOfNeurons, ILayer * previousLayer) {
 		vector<Signal*> tempSignals;
 		tempSignals.reserve(previousLayer->getNumOfNeurons());
 
+		// Assign signals with random weights spanning from -.5 to .5
+		// Later there will be an enum of which an option is chosen by the user
+		// at the time of the creation of the network with which he can choose how 
+		// the weights should be initialized
 		for (int j = 0; j < previousLayer->getNumOfNeurons(); j++)
-			tempSignals.push_back(new Signal(previousLayer->getNeuron(j), 0.5));
+			tempSignals.push_back(new Signal(previousLayer->getNeuron(j), (rand() / double(RAND_MAX)) - .5));
 
 		neurons.push_back(new Receptron(tempSignals));
 	}

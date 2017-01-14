@@ -12,8 +12,12 @@
 #include "Signal.h"
 
 class HiddenLayer : public ILayer {
+private:
+	double * bias;
 public:
 	HiddenLayer(unsigned short, ILayer*);
+	double getBias();
+	void setBias(double bias);
 };
 
 #endif // !HIDDENLAYER_H

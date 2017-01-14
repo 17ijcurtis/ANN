@@ -7,8 +7,12 @@
 
 #include "Perceptron.h"
 
-Perceptron::Perceptron() { inputSignal = 0.0; }
-Perceptron::Perceptron(double input) { inputSignal = input; }
+Perceptron::Perceptron(double * biasPointer) { 
+	this->biasPointer = biasPointer;
+	inputSignal = 0.0; 
+}
 
-double Perceptron::activate() { return sigmoid(inputSignal); }
+double Perceptron::activate() {
+	return sigmoid(inputSignal + *biasPointer); 
+}
 void Perceptron::setInput(double input) { inputSignal = input; }

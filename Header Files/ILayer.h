@@ -9,6 +9,8 @@ Date: 1/10/2017
 
 #include "INeuron.h"
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -20,6 +22,7 @@ public:
 	// Perceptron layer constructor
 	vector<INeuron*> getNeurons();
 	INeuron * getNeuron(int);
+
 	unsigned short getNumOfNeurons();
 };
 

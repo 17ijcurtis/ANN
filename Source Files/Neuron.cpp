@@ -8,8 +8,9 @@
 #include "Neuron.h"
 
 // CONSTRUCTOR
-Neuron::Neuron(vector<Signal*> signals) { 
+Neuron::Neuron(vector<Signal*> signals, double * biasPointer) { 
 	this->signals = signals;
+	this->biasPointer = biasPointer;
 }
 
 // PRIVATE FUNCTIONS
@@ -35,5 +36,5 @@ void Neuron::updateSignalStrengths() {
 // Updates the signal strengh of all previous neurons and then returns the sigmoid of the contents of the current neuron
 double Neuron::activate() {
 	updateSignalStrengths();
-	return sigmoid(contents()); 
+	return sigmoid(contents() + *biasPointer); 
 }
