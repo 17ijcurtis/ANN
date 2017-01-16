@@ -15,13 +15,12 @@ private:
 	// Signal array
 	vector<Signal*> signals;
 	double * biasPointer;
-
-	double contents();
-	void updateSignalStrengths();
-
 public:
 	Neuron(vector<Signal*>, double*);
 	virtual double activate();
+	virtual double contents();
+	virtual void updateSignalStrength();
+	vector<Signal*> getSignals();
 };
 
 #endif

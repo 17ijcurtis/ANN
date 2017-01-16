@@ -11,8 +11,7 @@ HiddenLayer::HiddenLayer(unsigned short numOfNeurons, ILayer * previousLayer) {
 	// Set bias with a random value
 	bias = new double(rand() / double(RAND_MAX));
 
-	// Reserve an additional neuron for a bias neuron
-	neurons.reserve(numOfNeurons + 1);
+	neurons.reserve(numOfNeurons);
 
 	for (int i = 0; i < numOfNeurons; i++) {
 		// An array to hold all the signals coming from the previous layer of neurons

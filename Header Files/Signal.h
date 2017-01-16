@@ -15,7 +15,7 @@ private:
 	double signalWeight;
 
 	// The neuron from which the signal was sent
-	INeuron* sender;
+	INeuron*sender;
 
 public:
 	Signal(INeuron * obj, double weight) {

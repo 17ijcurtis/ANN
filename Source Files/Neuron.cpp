@@ -15,7 +15,13 @@ Neuron::Neuron(vector<Signal*> signals, double * biasPointer) {
 
 // PRIVATE FUNCTIONS
 
+// PUBLIC FUNCTIONS
+double Neuron::activate() {
+	return sigmoid(contents()); 
+}
+
 // Provides a summation of all the weighted signals entering the neuron
+// as well as biases
 double Neuron::contents() {
 	double sum = 0;
 
@@ -23,18 +29,13 @@ double Neuron::contents() {
 		sum += signals[i]->getWeightedSignal();
 	}
 
-	return sum;
+	return sum + *biasPointer;
 }
 
-void Neuron::updateSignalStrengths() {
+void Neuron::updateSignalStrength() {
 	for (int i = 0; i < signals.size(); i++) {
 		signals[i]->updateStrength(signals[i]->getParentNeuron()->activate());
 	}
 }
 
-// PUBLIC FUNCTIONS
-// Updates the signal strengh of all previous neurons and then returns the sigmoid of the contents of the current neuron
-double Neuron::activate() {
-	updateSignalStrengths();
-	return sigmoid(contents() + *biasPointer); 
-}
+vector<Signal*> Neuron::getSignals() { return signals; }

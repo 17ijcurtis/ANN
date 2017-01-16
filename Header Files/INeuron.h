@@ -20,10 +20,15 @@ using namespace std;
 class INeuron {
 private:
 	const double eulerConstant = exp(1.0);
+	double error;
 protected:
 	double sigmoid(double z) { return 1.0 / (1.0 + pow(eulerConstant, -z)); }
 public:
 	virtual double activate() = 0;
+	virtual double contents() = 0;
+	virtual void updateSignalStrength() = 0;
+	double getError() { return error; }
+	void setError(double error) { this->error = error; }
 };
 
 #endif

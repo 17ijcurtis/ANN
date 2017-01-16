@@ -8,13 +8,16 @@
 #define OUTPUTLAYER_H
 
 #include "ILayer.h"
-#include "Receptron.h"
+#include "Neuron.h"
 #include "Signal.h"
 
 class OutputLayer : public ILayer {
+private:
+	double * bias;
 public:
 	OutputLayer(unsigned short, ILayer*);
-	vector<double> getOutput();
+	double getBias();
+	void setBias(double);
 };
 
 #endif // !OUTPUTLAYER_H

@@ -16,7 +16,6 @@ Date: 1/10/2017
 #include "INeuron.h"
 #include "Neuron.h"
 #include "Perceptron.h"
-#include "Receptron.h"
 
 #include "Signal.h"
 

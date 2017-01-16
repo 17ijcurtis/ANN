@@ -9,6 +9,9 @@
 // CONSTRUCTOR
 
 OutputLayer::OutputLayer(unsigned short numOfNeurons, ILayer * previousLayer) {
+	// Set bias with a random value
+	bias = new double(rand() / double(RAND_MAX));
+
 	neurons.reserve(numOfNeurons);
 
 	for (int i = 0; i < numOfNeurons; i++) {
@@ -24,19 +27,9 @@ OutputLayer::OutputLayer(unsigned short numOfNeurons, ILayer * previousLayer) {
 		for (int j = 0; j < previousLayer->getNumOfNeurons(); j++)
 			tempSignals.push_back(new Signal(previousLayer->getNeuron(j), (rand() / double(RAND_MAX)) - .5));
 
-		neurons.push_back(new Receptron(tempSignals));
+		neurons.push_back(new Neuron(tempSignals, bias));
 	}
 }
 
-// PUBLIC FUNCTIONS
-
-vector<double> OutputLayer::getOutput() {
-	vector<double> output;
-	output.reserve(getNumOfNeurons());
-
-	for (int i = 0; i < getNumOfNeurons(); i++) {
-		output.push_back(neurons[i]->activate());
-	}
-
-	return output;
-}
+double OutputLayer::getBias() { return *bias; }
+void OutputLayer::setBias(double bias) { *this->bias = bias; }

@@ -11,13 +11,9 @@
 #include "Perceptron.h"
 
 class InputLayer : public ILayer {
-private:
-	double * bias;
 public:
 	InputLayer(unsigned short);
 	void setInputs(vector<double>);
-	double getBias();
-	void setBias(double bias);
 };
 
 #endif // !INPUTLAYER_H

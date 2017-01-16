@@ -12,11 +12,11 @@ Date: 1/10/2017
 class Perceptron : public INeuron {
 private:
 	double inputSignal;
-	double * biasPointer;
 public:
-	Perceptron(double*);
-
+	Perceptron();
 	virtual double activate();
+	virtual double contents();
+	virtual void updateSignalStrength();
 	void setInput(double);
 };
 

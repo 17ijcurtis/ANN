@@ -8,12 +8,9 @@
 
 // Constructor
 InputLayer::InputLayer(unsigned short numOfNeurons) {
-	// Set bias with a random value
-	bias = new double(rand() / double(RAND_MAX));
-
 	neurons.reserve(numOfNeurons);
 	for (int i = 0; i < numOfNeurons; i++) 
-		neurons.push_back(new Perceptron(bias));
+		neurons.push_back(new Perceptron());
 }
 //PUBLIC
 
@@ -23,6 +20,3 @@ void InputLayer::setInputs(vector<double> inputs) {
 	for (int i = 0; i < getNumOfNeurons(); i++)
 		dynamic_cast<Perceptron *>(neurons[i])->setInput(inputs[i]); 
 }
-
-double InputLayer::getBias() { return *bias; }
-void InputLayer::setBias(double bias) { *this->bias = bias; }
