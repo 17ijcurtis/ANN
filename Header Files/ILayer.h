@@ -1,6 +1,9 @@
 /*
-Author: Isaiah Curtis
-Date: 1/10/2017
+	Author: Isaiah Curtis
+	Date: 1/10/2017
+	Description: An abstract layer class from which all other layer classes are
+		derived.  It contains a vector of INeuron pointers to point to the
+		various neurons in the layer.
 */
 
 #pragma once
@@ -21,7 +24,7 @@ protected:
 public:
 	// Perceptron layer constructor
 	vector<INeuron*> getNeurons();
-	INeuron * getNeuron(int);
+	INeuron * getNeuron(unsigned short);
 
 	unsigned short getNumOfNeurons();
 };

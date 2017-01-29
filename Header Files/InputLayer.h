@@ -13,6 +13,8 @@
 class InputLayer : public ILayer {
 public:
 	InputLayer(unsigned short);
+	~InputLayer();
+
 	void setInputs(vector<double>);
 };
 

@@ -8,10 +8,25 @@
 
 #include "NeuralNet.h"
 
-// CONSTRUCTOR
 
-// numOfNeuronsPerLayer.size() must be >= 2
-NeuralNet::NeuralNet(vector<unsigned short> numOfNeuronsPerLayer, double learningRate) {
+
+
+
+
+/*
+	CONSTRUCTOR
+	Parameters: vector<unsigned short> numOfNeuronsPerLayer, 
+		double learningRate, CostFunctions costFunction
+	Parameter Description: numOfNeuronsPerLayer is simply a vector array 
+		contains the number of neurons to be created in each layer of the
+		network.  The user must also pass the initial learning rate for the 
+		network, as well as the cost function that the network will use to 
+		calculate the gradients for backpropogation.
+	Description: The constructor takes the parameters and constructs a neural
+		network of the indicated dimensions.  It uses cout to briefly narrate
+		the process of the creation of the network.
+*/
+NeuralNet::NeuralNet(vector<unsigned short> numOfNeuronsPerLayer, double learningRate, CostFunctions costFunction) {
 	cout << "===============================================================================" << endl;
 	cout << "Constructing ANN of dimensions: ";
 	for (int i = 0; i < numOfNeuronsPerLayer.size(); i++) {
@@ -19,113 +34,106 @@ NeuralNet::NeuralNet(vector<unsigned short> numOfNeuronsPerLayer, double learnin
 	}
 
 	this->learningRate = learningRate;
-	
+	this->costFunction = costFunction;
+
 	cout << endl << "Reserving memory for layers... ";
 	layers.reserve(numOfNeuronsPerLayer.size());
 	cout << "Done." << endl;
 
 	cout << "Creating layers... ";
 	for (int i = 0; i < numOfNeuronsPerLayer.size(); i++) {
-		if (i == 0) {
-			// Input Layer
-			layers.push_back(new InputLayer(numOfNeuronsPerLayer[i]));
-		} else if (i == numOfNeuronsPerLayer.size() - 1) {
-			// Output Layer
-			layers.push_back(new OutputLayer(numOfNeuronsPerLayer[i], layers[i - 1]));
-		} else {
-			// Hidden Layer
-			layers.push_back(new HiddenLayer(numOfNeuronsPerLayer[i], layers[i - 1]));
-		}
+		if (i == 0) layers.push_back(new InputLayer(numOfNeuronsPerLayer[i]));				// Input Layer
+		else layers.push_back(new Layer(numOfNeuronsPerLayer[i], layers[i - 1]));			// Standard Layer
 	}
+
 	cout << "Done." << endl;
 	cout << "===============================================================================" << endl;
 }
 
+
+
+/*
+	DESTRUCTOR
+	Description: Deallocate all memory reserved for the layer pointers
+*/
+NeuralNet::~NeuralNet() {
+	for (ILayer * layer : layers)
+		delete layer;
+}
+
+
+
+// PUBLIC FUNCTIONS
+
+
+/*
+	Function Name: getOutput
+	Type: vector<double>
+	Parameters: vector<double> input
+	Parameter Description: The input to be fed into the network.
+	Description:  The input is first fed into the first layer of the network.
+		Then the program loops through layers and updates the signal strength
+		of each synapse to each neuron.  Then make an output array of length 
+		equal to the amount of neurons in the output layer and populate its
+		values.
+*/
 vector<double> NeuralNet::getOutput(vector<double> input) {
-	// Start at input and go forward through network
+
 	static_cast<InputLayer*>(layers[0])->setInputs(input);
 
-	// Filter through layers and update signals
-	for (int i = 1; i < layers.size(); i++) {
-		vector<INeuron*> temp = layers[i]->getNeurons();
+	for (int i = 1; i < layers.size(); i++)
+		for (INeuron* neuron : layers[i]->getNeurons())
+			neuron->updateSignalStrength();
 
-		for (int j = 0; j < temp.size(); j++) {
-			temp[j]->updateSignalStrength();
-		}
-	}
-
-	int numOfNeuronsInOutput = layers[layers.size() - 1]->getNumOfNeurons();
+	int numInOutput = layers[layers.size() - 1]->getNumOfNeurons();
 
 	vector<double> output;
-	output.reserve(numOfNeuronsInOutput);
+	output.reserve(numInOutput);
 
-	// populate output array
-	for (int i = 0; i < numOfNeuronsInOutput; i++) {
+	for (int i = 0; i < numInOutput; i++) 
 		output.push_back(layers[layers.size() - 1]->getNeuron(i)->activate());
-	}
 
 	return output;
 }
 
-// Assumes both emittedOutput and expectedOutput have equivalent size
-// Todo in future: Make available multiple cost functions
-double NeuralNet::getCost(vector<double> emittedOutput, vector<double> expectedOutput) {
+
+
+/*
+	Function Name: getTotalCost
+	Type: double
+	Parameters: vector<double> emittedOutput, vector<double> expectedOutput
+	Parameter Description:  The two vector arrays are the outputs emitted by
+		the network and the output that was desired, or expected to emitted,
+		respectively.
+	Description: This function compares the two output arrays and determines
+		the net error within the neural network.
+*/
+double NeuralNet::getTotalCost(vector<double> emittedOutput, vector<double> expectedOutput) {
 	double cost = 0;
-	for (int i = 0; i < emittedOutput.size(); i++)
-		cost += pow(expectedOutput[i] - emittedOutput[i], 2) / 2;
+
+	for (int i = 0; i < emittedOutput.size(); i++) {
+		cost += getCost(emittedOutput[i], expectedOutput[i]);
+	}
+
 	return cost;
 }
 
-// Uses back propogation to adjust weights and biases of the network
-void NeuralNet::trainAndLearn(vector<double> input, vector<double> expectedOutput) {
-	// calculate error gradient of every neuron and adjust weights and biases
-	// accordingly
 
-	// First calculate errors in output layer
-	vector<double> output = getOutput(input);
-	vector<double> biasGradients(layers.size());
-	vector<vector<double>> weightGradients(layers.size());
 
-	// A number commonly used in the next loop so I created a variable for it
-	int outputLayerIndex = layers.size() - 1;
-	double outputLayerError = 0;
-	for (int i = 0; i < output.size(); i++) {
-		layers[outputLayerIndex]->getNeuron(i)->setError(
-			layers[outputLayerIndex]->getNeuron(i)->activate() * 
-			(1 - layers[outputLayerIndex]->getNeuron(i)->activate()) *
-			(output[i] - expectedOutput[i]));
-
-		// The bias gradients of each respective neuron in the output layer is equal to the error
-		outputLayerError += pow(layers[outputLayerIndex]->getNeuron(i)->getError(), 2);
+/*
+	Function Name: getCost
+	Type: double
+	Parameters: double emittedOutput, double expectedOutput
+	Parameter Description: A value emitted from one of the output neurons that 
+		must be compared with the desired or expected output to calculate an 
+		error.
+	Description: Depending on the decided cost function, a cost/error is 
+		calculated and returned.
+*/
+double NeuralNet::getCost(double emittedOutput, double expectedOutput) {
+	switch (costFunction) {
+	case COST_STANDARD:
+		return pow(expectedOutput - emittedOutput, 2) / 2;
 	}
-
-	outputLayerError = sqrt(outputLayerError);
-	biasGradients[outputLayerIndex] = outputLayerError;
-
-
-	// Now that the error within the output neurons has been calculated we 
-	// now have to calculate the weight gradients for each incoming signal
-	for (int i = 0; i < layers[outputLayerIndex]->getNumOfNeurons(); i++) {
-		vector<Signal*> temp = static_cast<Neuron*>(layers[outputLayerIndex]->getNeuron(i))->getSignals();
-
-		for (int j = 0; j < temp.size(); j++)
-			weightGradients[outputLayerIndex].push_back(temp[j]->getSignalStrength() * 
-				layers[outputLayerIndex]->getNeuron(i)->getError());
-	}
-
-
-	// Change weights and biases according to gradients
-
-	// Changing biases within output layer
-	static_cast<OutputLayer*>(layers[outputLayerIndex])->setBias(
-		static_cast<OutputLayer*>(layers[outputLayerIndex])->getBias() - 
-		learningRate * biasGradients[outputLayerIndex]);
-
-	// Change weights within output layer
-	for (int i = 0; i < layers[outputLayerIndex]->getNumOfNeurons(); i++) {
-		vector<Signal*> temp = static_cast<Neuron*>(layers[outputLayerIndex]->getNeuron(i))->getSignals();
-
-		for (int j = 0; j < temp.size(); j++)
-			temp[i]->updateWeight(temp[i]->getSignalWeight() - learningRate * weightGradients[outputLayerIndex][i]);
-	}
+	return 0;
 }

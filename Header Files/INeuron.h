@@ -1,11 +1,10 @@
 /*
-Author: Isaiah Curtis
-Date: 1/10/2017
+	Author: Isaiah Curtis
+	Date: 1/10/2017
+	Description: The following is a skeleton neuron that will be used by both the 
+		perceptron and neuron class
 */
 
-
-//The following is a skeleton neuron that will be
-//used by both the perceptron and neuron class
 
 #pragma once
 #ifndef INEURON_H
@@ -22,6 +21,7 @@ private:
 	const double eulerConstant = exp(1.0);
 	double error;
 protected:
+	// Activation Functions
 	double sigmoid(double z) { return 1.0 / (1.0 + pow(eulerConstant, -z)); }
 public:
 	virtual double activate() = 0;

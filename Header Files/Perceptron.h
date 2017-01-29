@@ -1,6 +1,6 @@
 /*
-Author: Isaiah Curtis
-Date: 1/10/2017
+	Author: Isaiah Curtis
+	Date: 1/10/2017
 */
 
 #pragma once

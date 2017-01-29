@@ -8,19 +8,22 @@
 #define NEURON_H
 
 #include "INeuron.h"
-#include "Signal.h"
+#include "Synapse.h"
 
 class Neuron : public INeuron {
 private:
 	// Signal array
-	vector<Signal*> signals;
+	vector<Synapse*> synapses;
 	double * biasPointer;
 public:
-	Neuron(vector<Signal*>, double*);
+	Neuron(vector<Synapse*>, double*);
+
 	virtual double activate();
 	virtual double contents();
+
 	virtual void updateSignalStrength();
-	vector<Signal*> getSignals();
+
+	vector<Synapse*> getSynapses();
 };
 
 #endif

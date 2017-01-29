@@ -4,20 +4,22 @@
 */
 
 #pragma once
-#ifndef HIDDENLAYER_H
-#define HIDDENLAYER_H
+#ifndef LAYER_H
+#define LAYER_H
 
 #include "ILayer.h"
 #include "Neuron.h"
-#include "Signal.h"
+#include "Synapse.h"
 
-class HiddenLayer : public ILayer {
+class Layer : public ILayer {
 private:
 	double * bias;
 public:
-	HiddenLayer(unsigned short, ILayer*);
+	Layer(unsigned short, ILayer*);
+	~Layer();
+
 	double getBias();
 	void setBias(double bias);
 };
 
-#endif // !HIDDENLAYER_H
+#endif // !LAYER_H

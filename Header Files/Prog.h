@@ -11,13 +11,13 @@ Date: 1/10/2017
 #include <iostream>
 
 #include "InputLayer.h"
-#include "OutputLayer.h"
 
 #include "INeuron.h"
 #include "Neuron.h"
 #include "Perceptron.h"
 
-#include "Signal.h"
+#include "Synapse.h"
+#include "EnumsANN.h"
 
 #include "NeuralNet.h"
 
