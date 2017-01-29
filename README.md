@@ -5,7 +5,7 @@ As of now there are no training methods so the network cannot learn, but fear no
 In order to initialize a network and run data through it simply do the following:
 
 <code>
-NeuralNet myNetwork(vector\<unsigned short> theNumberOfNeuronsYouWantPerRow);
+NeuralNet myNetwork(vector\<unsigned short> theNumberOfNeuronsYouWantPerRow, double learningRate, CostFunctions desiredCostFunction);
 </code>
 
 And then to find the output of the network given a specific input, simple use:
