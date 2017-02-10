@@ -14,9 +14,10 @@ class Neuron : public INeuron {
 private:
 	// Signal array
 	vector<Synapse*> synapses;
-	double * biasPointer;
+	double error;
+	double bias;
 public:
-	Neuron(vector<Synapse*>, double*);
+	Neuron(vector<Synapse*>, double);
 
 	virtual double activate();
 	virtual double contents();
@@ -24,6 +25,8 @@ public:
 	virtual void updateSignalStrength();
 
 	vector<Synapse*> getSynapses();
+
+	void adjustBias(double);
 };
 
 #endif

@@ -8,18 +8,13 @@
 #define LAYER_H
 
 #include "ILayer.h"
-#include "Neuron.h"
 #include "Synapse.h"
+#include "Neuron.h"
 
 class Layer : public ILayer {
-private:
-	double * bias;
 public:
 	Layer(unsigned short, ILayer*);
 	~Layer();
-
-	double getBias();
-	void setBias(double bias);
 };
 
 #endif // !LAYER_H

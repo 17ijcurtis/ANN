@@ -26,6 +26,16 @@ Synapse::Synapse(INeuron* parentNeuron, double weight) {
 
 
 /*
+Function Name: getParentNeuron
+Type: INeuron*
+Description: A function to find the parent neuron so that the neurons can
+interact as nodes to communicate with the whole network.
+*/
+INeuron* Synapse::getParentNeuron() { return parentNeuron; }
+
+
+
+/*
 Function Name: getSignalStrength
 Type: double
 Description: A function that returns the signal strength.
@@ -53,6 +63,14 @@ double Synapse::getWeightedSignal() { return strength * weight; }
 
 
 
+/*
+	Function Name: getWeightGradient
+	Type: double
+	Description: Returns weight gradient.
+*/
+double Synapse::getWeightGradient() { return weightGradient; }
+
+
 
 /*
 	Function Name: updateStrength
@@ -75,9 +93,9 @@ void Synapse::setWeight(double weight) { this->weight = weight;  }
 
 
 /*
-	Function Name: getParentNeuron
-	Type: INeuron*
-	Description: A function to find the parent neuron so that the neurons can 
-		interact as nodes to communicate with the whole network.
+	Function Name: setWeightGradient
+	Type: void
+	Parameter: double weightGradient
+	Description: Update the weight gradient of the synapse.
 */
-INeuron* Synapse::getParentNeuron() { return parentNeuron; }
+void Synapse::setWeightGradient(double weightGradient) { this->weightGradient = weightGradient; }

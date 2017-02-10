@@ -4,6 +4,7 @@
 */
 
 #pragma once
+
 #ifndef SYNAPSE_H
 #define SYNAPSE_H
 
@@ -17,17 +18,21 @@ private:
 	// The neuron from which the signal was sent
 	INeuron* parentNeuron;
 
+	double weightGradient;
+
 public:
 	Synapse(INeuron*, double);
 
-	INeuron * getParentNeuron();
+	INeuron* getParentNeuron();
 
 	double getStrength();
 	double getWeight();
 	double getWeightedSignal();
+	double getWeightGradient();
 
 	void updateStrength();
 	void setWeight(double);
+	void setWeightGradient(double);
 };
 
-#endif // SYNAPSE_H
+#endif // !SYNAPSE_H

@@ -12,7 +12,7 @@
 	CONSTRUCTOR
 	Description: Set input signal to 0.0
 */
-Perceptron::Perceptron() { 
+Perceptron::Perceptron() : INeuron(){ 
 	inputSignal = 0.0; 
 }
 

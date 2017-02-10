@@ -15,9 +15,10 @@
 		neuron is being held.
 	Description: The parameters are stored in the class.
 */
-Neuron::Neuron(vector<Synapse*> synapses, double* biasPointer) { 
+Neuron::Neuron(vector<Synapse*> synapses, double bias) : INeuron() { 
 	this->synapses = synapses;
-	this->biasPointer = biasPointer;
+	this->bias = bias;
+	this->error = 0;
 }
 
 
@@ -49,7 +50,7 @@ double Neuron::contents() {
 		sum += synapses[i]->getWeightedSignal();
 	}
 
-	return sum + *biasPointer;
+	return sum + bias;
 }
 
 
@@ -67,9 +68,12 @@ void Neuron::updateSignalStrength() {
 }
 
 
+
 /*
 	Function Name: getSynapses
 	Type: vector<Synapse*>
 	Description: Returns the neurons incoming synapses.
 */
 vector<Synapse*> Neuron::getSynapses() { return synapses; }
+
+void Neuron::adjustBias(double deltaBias) { this->bias += deltaBias; }

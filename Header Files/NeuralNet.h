@@ -7,21 +7,17 @@
 #ifndef NEURALNET_H
 #define NEURALNET_H
 
-#include <cmath>
 #include <iostream>
-#include <string>
 #include <vector>
+using namespace std;
 
-#include "EnumsANN.h"
-#include "Synapse.h"
+#include "Neuron.h"
 
 #include "ILayer.h"
-#include "INeuron.h"
-
 #include "InputLayer.h"
 #include "Layer.h"
 
-using namespace std;
+#include "EnumsANN.h"
 
 class NeuralNet {
 private:
@@ -37,8 +33,13 @@ public:
 	vector<double> getOutput(vector<double>);
 	double getTotalCost(vector<double>, vector<double>);
 	double getCost(double, double);
+	Layer* getOutputLayer();
 
-	void trainAndLearn(vector<double>, vector<double>);
+	void trainNetwork(vector<double>, vector<double>);
+	void calculateNeuronError(vector<double>, vector<double>);
+	void calculateWeightGradients();
+	void adjustBiases();
+	void adjustWeights();
 	double sigmoidPrime(double z) { return pow(exp(1.0), -z) / pow(1 + pow(exp(1.0), -z), 2); }
 };
 

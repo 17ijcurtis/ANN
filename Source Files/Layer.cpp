@@ -20,17 +20,25 @@
 		the previous layer.  Each neuron in this layer is given this array of synapses
 */
 Layer::Layer(unsigned short numOfNeurons, ILayer* previousLayer) {
-	bias = new double(rand() / double(RAND_MAX));
-
 	neurons.reserve(numOfNeurons);
 
 	for (int i = 0; i < numOfNeurons; i++) {
 		vector<Synapse*> tempSynapses;
 		tempSynapses.reserve(previousLayer->getNumOfNeurons());
 
-		for (int j = 0; j < previousLayer->getNumOfNeurons(); j++)
+		for (int j = 0; j < previousLayer->getNumOfNeurons(); j++) {
 			tempSynapses.push_back(new Synapse(previousLayer->getNeuron(j), (rand() / double(RAND_MAX)) - .5));
-		neurons.push_back(new Neuron(tempSynapses, bias));
+
+			// init axon synapses
+			previousLayer->getNeuron(j)->getAxon()->childSynapses.push_back(tempSynapses[j]);
+		}
+		neurons.push_back(new Neuron(tempSynapses, (rand() / double(RAND_MAX)) - .5));
+	}
+
+	for (int i = 0; i < previousLayer->getNumOfNeurons(); i++) {
+		for (int j = 0; j < numOfNeurons; j++) {
+			previousLayer->getNeuron(i)->getAxon()->childNeurons.push_back(neurons[j]);
+		}
 	}
 }
 
@@ -42,7 +50,6 @@ Layer::Layer(unsigned short numOfNeurons, ILayer* previousLayer) {
 		array as well as the the synapses.
 */
 Layer::~Layer() {
-	delete bias;
 
 	// Each neuron holds the pointers to the synapses coming from the previous
 	// layer and I dont want to delete them multiple times in the destructor of
@@ -50,31 +57,14 @@ Layer::~Layer() {
 	for (Synapse* synapse : static_cast<Neuron*>(neurons[0])->getSynapses()) {
 		delete synapse;
 	}
+	
+	// Delete axons
+	for (INeuron* neuron : neurons) {
+		delete neuron->getAxon();
+	}
 
 	// Now delete neurons
 	for (INeuron* neuron : neurons)
 		delete neuron;
 
 }
-
-
-
-// PUBLIC FUNCTIONS
-
-/*
-	Function Name: getBias
-	Type: double
-	Description: Returns pointer to bias neuron.
-*/
-double Layer::getBias() { return *bias; }
-
-
-
-/*
-	Function Name: setBias
-	Type: void
-	Parameters: double bias
-	Parameter Description: A value to set the bias to.
-	Description: Sets the value of the bias neuron to the specified value.
-*/
-void Layer::setBias(double bias) { *(this->bias) = bias; }

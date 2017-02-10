@@ -10,17 +10,8 @@ Date: 1/10/2017
 
 #include <iostream>
 
-#include "InputLayer.h"
-
-#include "INeuron.h"
-#include "Neuron.h"
-#include "Perceptron.h"
-
-#include "Synapse.h"
-#include "EnumsANN.h"
+using namespace std;
 
 #include "NeuralNet.h"
-
-using namespace std;
 
 #endif // !PROG_H
